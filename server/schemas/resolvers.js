@@ -37,6 +37,34 @@ const resolvers = {
             const token = signToken(cUser);
       
             return { token, cUser };
+          },
+          saveBook: async (parent, { body }, context) => {
+            const { user } = context;
+            try {
+              const updatedUser = await User.findOneAndUpdate(
+                    {_id: user._id},
+                    { $addToSet: { savedBooks: body } },
+                    { new: true, runValidators: true }
+                    );
+
+                return updatedUser;
+              } catch (err) {
+                console.log(err);
+                throw new Error('book not saved');
+              }
+            },
+            
+          deleteBook: async (parent, { bookId }, context) => {
+            const { user } = context;
+              const updatedUser = await User.findOneAndUpdate(
+                { _id: user._id },
+                { $pull: { savedBooks: { bookId: bookId } } },
+                { new: true }              
+              );
+              if (!updatedUser) {
+                throw new Error('user not found');
+              }
+              return updatedUser;
           }
     },
 };
