@@ -1,5 +1,5 @@
 # MERN-stuff
-
+This was a RESTful APi converted into MERN setup using the Apollo server using Javascript and React.
 # USER STORY
 
 GIVEN a book search engine
